@@ -4,9 +4,9 @@ import productsroutes from "./routes/productsroutes";
 import { error } from "console";
 import cors from "cors";
 const app = express();
+app.use(express.json());
 app.use(cors());
 app.use("/products", productsroutes);
-app.use(express.json());
 
 // const lock = "ram";
 // app.get(

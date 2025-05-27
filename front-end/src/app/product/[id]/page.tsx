@@ -56,7 +56,7 @@ export default function ProductById() {
     );
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div className="min-h-screen  flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full border border-gray-200">
         <h2 className="text-3xl font-extrabold text-gray-800 mb-3 text-center">
           {product.name}
@@ -70,6 +70,41 @@ export default function ProductById() {
           </p>
         </div>
       </div>
+      <button
+        className="mt-6 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+        onClick={async () => {
+          try {
+            const response = await fetch(
+              `http://localhost:4000/products/${id}`,
+              {
+                method: "DELETE",
+              }
+            );
+            if (!response.ok) {
+              throw new Error("Failed to delete product");
+            }
+            alert(`Product with id ${id} deleted successfully`);
+            window.location.href = "/products";
+          } catch (err: unknown) {
+            console.error("❌ Error deleting product:", err);
+            if (err instanceof Error) {
+              alert(err.message);
+            } else {
+              alert("An unknown error occurred while deleting the product");
+            }
+          }
+        }}
+      >
+        Delete
+      </button>
+      <button
+        className="mt-6 ml-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+        onClick={() => {
+          window.location.href = `/edit/${id}`;
+        }}
+      >
+        Edit
+      </button>
     </div>
   );
 }

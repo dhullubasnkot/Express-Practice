@@ -34,7 +34,6 @@ export function updateProductDetails(id: number, input: Omit<Product, "id">) {
   products[index] = { ...products[index], ...input };
   return products[index];
 }
-
 export function deleteProductById(id: number) {
   const index = products.findIndex((p) => p.id === id);
   if (index === -1) {
