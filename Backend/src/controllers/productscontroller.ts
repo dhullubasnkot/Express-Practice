@@ -13,11 +13,18 @@ export const getAllProductsController = async (req: Request, res: Response) => {
   res.json(products);
 };
 
-export const getProductByIdController = (req: Request, res: Response) => {
+export const getProductByIdController = async (req: Request, res: Response) => {
+  // const id = parseInt(req.params.id);
+  // const product = getProductById(id);
+  // if (!product) res.status(404).json({ error: "Product not found" });
+  // res.status(200).json(product);
   const id = parseInt(req.params.id);
-  const product = getProductById(id);
-  if (!product) res.status(404).json({ error: "Product not found" });
-  res.status(200).json(product);
+  try {
+    const product = await SqlProductModel.getProductById(id);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(404).json({ error: "Product not found" });
+  }
 };
 
 export const createProductController = (req: Request, res: Response) => {
