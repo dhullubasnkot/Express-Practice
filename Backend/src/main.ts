@@ -1,13 +1,14 @@
 import express, { Request, Response, NextFunction } from "express";
 import Linking from "./routes/productsroutes";
 import productsroutes from "./routes/productsroutes";
+import userroutes from "./routes/userroute";
 import { error } from "console";
 import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use("/products", productsroutes);
-
+app.use("/users", userroutes);
 // const lock = "ram";
 // app.get(
 //   "/",
@@ -40,6 +41,7 @@ app.listen(4000, () => {
   console.log("Server running on http://localhost:4000");
 });
 app.use("/products", productsroutes);
+app.use("/users", userroutes);
 // app.use("/productss", productsroutes);
 const PORT = 4000;
 app.listen(PORT, () => {

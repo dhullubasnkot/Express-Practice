@@ -64,6 +64,11 @@ export default function ProductDetails() {
           Handpicked for your ultimate satisfaction.
         </p>
       </header>
+      <Link href="/pages/login">
+        <button className="mb-6 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
+          Go to Login Page
+        </button>
+      </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {products.map((product) => (
