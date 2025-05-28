@@ -8,7 +8,6 @@ export default function RegisterPage() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const username = (document.getElementById("username") as HTMLInputElement)
       .value;
     const name = (document.getElementById("name") as HTMLInputElement).value;
@@ -28,7 +27,7 @@ export default function RegisterPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:4000/user", {
+      const res = await fetch("http://localhost:4000/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,43 +49,118 @@ export default function RegisterPage() {
       }
 
       alert("✅ Registration successful!");
-      router.push("/login"); // Redirect to login page
+      router.push("/login");
     } catch (err: any) {
-      setError(err.message || "Registration failed");
+      setError(err.message || "Registration failed. Please try again.");
     }
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleRegister}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" required />
-        </div>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input type="text" id="name" required />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" required />
-        </div>
-        <div>
-          <label htmlFor="address">Address:</label>
-          <input type="text" id="address" required />
-        </div>
-        <div>
-          <label htmlFor="phone">Phone:</label>
-          <input type="number" id="phone" required />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" required />
-        </div>
-        <button type="submit">Register</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 p-4">
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Register for an Account
+        </h1>
+
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-sm">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleRegister} className="space-y-4">
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-gray-700 text-sm font-medium mb-1"
+            >
+              Username:
+            </label>
+            <input
+              type="text"
+              id="username"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-gray-700 text-sm font-medium mb-1"
+            >
+              Full Name:
+            </label>
+            <input
+              type="text"
+              id="name"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-gray-700 text-sm font-medium mb-1"
+            >
+              Email Address:
+            </label>
+            <input
+              type="email"
+              id="email"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="address"
+              className="block text-gray-700 text-sm font-medium mb-1"
+            >
+              Address:
+            </label>
+            <input
+              type="text"
+              id="address"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-gray-700 text-sm font-medium mb-1"
+            >
+              Phone Number:
+            </label>
+            <input
+              type="number"
+              id="phone"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-gray-700 text-sm font-medium mb-1"
+            >
+              Password:
+            </label>
+            <input
+              type="password"
+              id="password"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300 ease-in-out"
+          >
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

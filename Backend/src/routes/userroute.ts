@@ -1,6 +1,5 @@
 import express from "express";
-import { getAllUsers } from "../controllers/user-controller";
-import { CreateUsers } from "../controllers/user-controller";
+import { getAllUsers, CreateUsers } from "../controllers/user-controller";
 // import { getUserNameAndPassword } from "../controllers/user-controller";
 
 const router = express.Router();
@@ -8,5 +7,4 @@ const router = express.Router();
 router.get("/", getAllUsers); // works as /users when mounted
 router.post("/", CreateUsers);
 // router.get("/username", getUserNameAndPassword);
-
 export default router;

@@ -23,41 +23,91 @@ export default function LoginPage() {
         },
       });
 
+      if (!res.ok) {
+        throw new Error("Failed to fetch user data.");
+      }
+
       const users = await res.json();
 
-      // Check if any user matches the credentials
       const foundUser = users.find(
         (user: any) => user.username === username && user.password === password
       );
 
       if (foundUser) {
         alert("✅ Login successful!");
-        router.push("/home"); // or use window.location.href = "/home"
+        router.push("/home");
       } else {
-        setError("❌ Invalid username or password");
+        setError("❌ Invalid username or password.");
       }
     } catch (err: any) {
       setError("❌ Error logging in. Please try again later.");
-      console.error(err);
+      console.error("Login error:", err);
     }
   };
 
   return (
-    <>
-      <h1>Login Page</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" required />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" required />
-        </div>
-        <button type="submit">Login</button>
-        <Link href="/pages/register">Register</Link>
-      </form>
-    </>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 p-4">
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Welcome Back!
+        </h1>
+
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-sm">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-gray-700 text-sm font-medium mb-1"
+            >
+              Username:
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-gray-700 text-sm font-medium mb-1"
+            >
+              Password:
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300 ease-in-out"
+          >
+            Login
+          </button>
+          <div className="text-center mt-4">
+            <p className="text-gray-600 text-sm">
+              Don't have an account?{" "}
+              <Link
+                href="/pages/register"
+                className="text-blue-600 hover:text-blue-800 font-medium transition duration-300 ease-in-out"
+              >
+                Register here
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
