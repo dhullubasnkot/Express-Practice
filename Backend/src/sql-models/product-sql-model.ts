@@ -36,7 +36,13 @@ export const SqlProductModel = {
   //update product by id
   async UpdateProduct(
     id: number,
-    p0: { name: any; price: any; description: any; stock_quantity: any }
+    p0: {
+      name: any;
+      price: any;
+      description: any;
+      stock_quantity: any;
+      image?: string;
+    }
   ) {
     try {
       console.log("Checking if product exists with id:", id);
@@ -49,20 +55,30 @@ export const SqlProductModel = {
         throw new Error(`Product with id ${id} not found`);
       }
 
+      // Prepare updated product data by merging existing row and new data
       const updatedProduct = {
         ...rows[0],
         name: p0.name,
         description: p0.description,
         price: p0.price,
         stock_quantity: p0.stock_quantity,
+        image: p0.image !== undefined ? p0.image : rows[0].image,
       };
 
       console.log("Updating product with data:", updatedProduct);
 
-      await pool.query(
-        "UPDATE products SET name=?, description=?, price=?, stock_quantity=? WHERE id = ?",
-        [p0.name, p0.description, p0.price, p0.stock_quantity, id]
-      );
+      // Build SQL and params conditionally to include image only if provided
+      if (p0.image !== undefined) {
+        await pool.query(
+          "UPDATE products SET name=?, description=?, price=?, stock_quantity=?, image=? WHERE id = ?",
+          [p0.name, p0.description, p0.price, p0.stock_quantity, p0.image, id]
+        );
+      } else {
+        await pool.query(
+          "UPDATE products SET name=?, description=?, price=?, stock_quantity=? WHERE id = ?",
+          [p0.name, p0.description, p0.price, p0.stock_quantity, id]
+        );
+      }
 
       console.log(`Product with id ${id} updated successfully`);
 
@@ -78,13 +94,17 @@ export const SqlProductModel = {
     price: number;
     description: string;
     stock_quantity: number;
+    image?: string;
   }) {
-    const { name, price, description, stock_quantity } = p0;
+    const { name, price, description, stock_quantity, image } = p0;
+
     const [result] = await pool.query<any>(
-      "INSERT INTO products (name, price, description,stock_quantity) VALUES (?, ?, ?, ?)",
-      [name, price, description, stock_quantity]
+      "INSERT INTO products (name, price, description, stock_quantity, image) VALUES (?, ?, ?, ?, ?)",
+      [name, price, description, stock_quantity, image || null]
     );
+
     const newProductId = result.insertId;
+
     const [rows] = await pool.query<any[]>(
       "SELECT * FROM products WHERE id = ?",
       [newProductId]

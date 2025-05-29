@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-
+import Image from "next/image";
 type Product = {
   id: number;
   name: string;
   price: number;
   description: string;
+  image: string;
 };
 
 export default function ProductById() {
@@ -68,6 +69,13 @@ export default function ProductById() {
           <p className="text-base text-gray-700 leading-relaxed text-center">
             {product.description}
           </p>
+          <Image
+            src={`http://localhost:4000/uploads/${product.image}`}
+            alt={product.name}
+            height={200}
+            width={200}
+            className="w-full h-48 object-cover"
+          />
         </div>
       </div>
       <button

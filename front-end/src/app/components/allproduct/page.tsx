@@ -1,18 +1,19 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+import Image from "next/image";
 type Product = {
   id: number;
   name: string;
   price: number;
   description: string;
+  image?: string; // Add image property (optional)
 };
 
 export default function ProductDetails() {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); // Add a loading state
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetch(`http://localhost:4000/products`)
@@ -30,9 +31,7 @@ export default function ProductDetails() {
         console.error("❌ Error fetching products:", err);
         setError(err.message);
       })
-      .finally(() => {
-        setLoading(false); // Set loading to false after fetch completes
-      });
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
@@ -64,11 +63,19 @@ export default function ProductDetails() {
           Handpicked for your ultimate satisfaction.
         </p>
       </header>
-      <Link href="/pages/login">
-        <button className="mb-6 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
-          Go to Login Page
-        </button>
-      </Link>
+
+      <div className="flex justify-center space-x-4 mb-6">
+        <Link href="/pages/login">
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
+            Go to Login Page
+          </button>
+        </Link>
+        <Link href="/components/create">
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
+            Create Product
+          </button>
+        </Link>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {products.map((product) => (
@@ -76,6 +83,17 @@ export default function ProductDetails() {
             key={product.id}
             className="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 ease-in-out overflow-hidden border border-gray-200"
           >
+            {/* Product Image */}
+            {product.image && (
+              <Image
+                src={`http://localhost:4000/uploads/${product.image}`}
+                alt={product.name}
+                height={200}
+                width={200}
+                className="w-full h-48 object-cover"
+              />
+            )}
+
             <div className="p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
                 {product.name}

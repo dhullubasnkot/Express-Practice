@@ -28,18 +28,19 @@ export const getProductByIdController = async (req: Request, res: Response) => {
 };
 
 export const createProductController = (req: Request, res: Response) => {
-  // const { name, price, description } = req.body;
-  // const newProduct = createProductDetails({ name, price, description });
-  // res.status(201).json(newProduct);
   const { name, description, price, stock_quantity } = req.body;
+  const image = req.file?.filename;
+
   SqlProductModel.createProductDetails({
     name,
     description,
-    price,
-    stock_quantity,
+    price: parseFloat(price),
+    stock_quantity: parseInt(stock_quantity, 10),
+    image,
   })
     .then((newProduct) => {
       res.status(201).json(newProduct);
+      console.log("Image", image);
     })
     .catch((error: any) => {
       console.error("Create error:", error.message || error);
@@ -50,13 +51,15 @@ export const createProductController = (req: Request, res: Response) => {
 export const updateProductController = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const { name, description, price, stock_quantity } = req.body;
+  const image = req.file?.filename; 
 
   try {
     const updatedProduct = await SqlProductModel.UpdateProduct(id, {
       name,
       description,
-      price,
-      stock_quantity,
+      price: parseFloat(price),
+      stock_quantity: parseInt(stock_quantity, 10),
+      image, 
     });
     res.status(200).json(updatedProduct);
   } catch (error: any) {
