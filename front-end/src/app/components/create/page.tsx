@@ -1,7 +1,19 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CreateProduct() {
+  const router = useRouter();
+
+  // 🔐 Check if user is logged in
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      alert("❌ Please log in to add a product.");
+      router.push("/pages/login");
+    }
+  }, [router]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -21,7 +33,7 @@ export default function CreateProduct() {
 
       const data = await response.json();
       alert(`✅ Product created successfully: ${data.name}`);
-      window.location.href = `/products/${data.id}`;
+      router.push("/");
     } catch (error: any) {
       console.error("❌ Error creating product:", error);
       alert(`Error: ${error.message}`);

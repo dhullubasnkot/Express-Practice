@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 type Product = {
   id: number;
@@ -12,6 +12,7 @@ type Product = {
 
 export default function ProductById() {
   const params = useParams();
+  const router = useRouter();
   const id = params?.id;
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -92,7 +93,7 @@ export default function ProductById() {
               throw new Error("Failed to delete product");
             }
             alert(`Product with id ${id} deleted successfully`);
-            window.location.href = "/products";
+            window.location.href = "/";
           } catch (err: unknown) {
             console.error("❌ Error deleting product:", err);
             if (err instanceof Error) {
@@ -108,7 +109,7 @@ export default function ProductById() {
       <button
         className="mt-6 ml-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         onClick={() => {
-          window.location.href = `/edit/${id}`;
+          router.push("/");
         }}
       >
         Edit

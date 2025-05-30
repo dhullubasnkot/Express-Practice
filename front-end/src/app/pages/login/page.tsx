@@ -34,8 +34,16 @@ export default function LoginPage() {
       );
 
       if (foundUser) {
-        alert("✅ Login successful!");
-        router.push("/home");
+        // ✅ Save login info in localStorage
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            id: foundUser.id,
+            username: foundUser.username,
+            email: foundUser.email,
+          })
+        );
+        router.push("/");
       } else {
         setError("❌ Invalid username or password.");
       }
