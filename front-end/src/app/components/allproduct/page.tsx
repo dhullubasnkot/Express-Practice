@@ -56,7 +56,6 @@ export default function ProductDetails() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 py-10 px-6 sm:px-12">
-      {/* Hero Section */}
       <div className="text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-800">
           🌟 Explore Our Best Products
@@ -79,8 +78,7 @@ export default function ProductDetails() {
         </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-8xl mx-auto">
         {products.map((product) => (
           <div
             key={product.id}
@@ -109,18 +107,20 @@ export default function ProductDetails() {
                     : product.description}
                 </p>
               </div>
-              <Link
-                href={`/product/${product.id}`}
-                className="inline-block mt-auto bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition text-center"
-              >
-                View Details →
-              </Link>
+              {product.id ? (
+                <Link href={`/product/${product.id}`}>
+                  <button className="...">View Details</button>
+                </Link>
+              ) : (
+                <p className="text-red-500 text-sm mt-2">
+                  ⚠ Product ID missing
+                </p>
+              )}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Empty state */}
       {products.length === 0 && !loading && !error && (
         <div className="text-center mt-10">
           <p className="text-xl text-gray-700">No products found.</p>
