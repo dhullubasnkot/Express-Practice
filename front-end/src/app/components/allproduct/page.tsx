@@ -65,7 +65,7 @@ export default function ProductDetails() {
           Handpicked for your ultimate satisfaction.
         </p>
       </header>
-
+{/* links */}
       <div className="flex justify-center space-x-4 mb-6">
         <Link href="/pages/login">
           <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
